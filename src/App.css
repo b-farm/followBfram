@@ -1,9 +1,12 @@
-/* #root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
-} */
+#root {
+  width: 100%;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: 60% 40%;
+  width: 100%;
+}
 
 .logo {
   height: 6em;
@@ -22,18 +25,66 @@
 
 .g-graph {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: flex-start;
-  align-items: flex-start;
-  width: 50%;
-  padding: 10vh 20px 0px;
+  /* align-items: flex-start; */
+  width: 92%;
+  padding: 10vh 4% 0px;
+  align-items: stretch;
+  text-align: center;
+}
+
+h3 {
+  color: #2835a8;
+  font-size: 32px;
+  margin: 0;
+  padding: 0;
+}
+
+h4 {
+  color: #4858ee;
+  font-size: 24px;
+  margin: 0;
+  padding: 0;
 }
 
 .g-list {
   width: 100%;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
+  padding: 10vh 4% 0px;
 }
+
+.grid-region-t {
+  display: grid;
+  grid-template-columns: 70% 30%;
+  width: 70%;
+  text-align: center;
+  font-weight: 600;
+}
+
+
+.grid-region-d {
+  display: grid;
+  grid-template-columns: 70% 30%;
+  width: 70%;
+}
+
+.grid-region-t-1 {
+  background: #4858ee;
+  color: #fff;
+  font-size: 24px;
+}
+
+
+.grid-region-t-2 {
+  background: #2835a8;
+  color: #fff;
+  font-size: 24px;
+}
+
+
+
 
 @keyframes logo-spin {
   from {
@@ -45,19 +96,72 @@
   }
 }
 
+
 @media (max-width: 1000px) {
+  .layout {
+    display: grid;
+    grid-template-columns: 100%;
+    width: 100%;
+  }
+
   .g-graph {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    align-items: flex-start;
-    width: 90%;
-    padding: 10vh 20px 0px;
+    /* align-items: flex-start; */
+    width: 96%;
+    padding: 10vh 0 0px;
+    align-items: stretch;
+    text-align: center;
+  }
+
+  h3 {
+    color: #2835a8;
+    font-size: 24px;
+    margin: 0;
+    padding: 0;
+  }
+
+  h4 {
+    color: #4858ee;
+    font-size: 16px;
+    margin: 0;
+    padding: 0;
   }
 
   .g-list {
-    width: 93%;
+    width: 92%;
     display: flex;
-    flex-direction: column-reverse;
+    flex-direction: column;
+    padding: 10vh 4% 0px;
   }
+
+  .grid-region-t {
+    display: grid;
+    grid-template-columns: 70% 30%;
+    width: 96%;
+    text-align: center;
+    font-weight: 600;
+  }
+
+
+  .grid-region-d {
+    display: grid;
+    grid-template-columns: 70% 30%;
+    width: 96%;
+  }
+
+  .grid-region-t-1 {
+    background: #4858ee;
+    color: #fff;
+    font-size: 16px;
+  }
+
+
+  .grid-region-t-2 {
+    background: #2835a8;
+    color: #fff;
+    font-size: 16px;
+  }
+
 }

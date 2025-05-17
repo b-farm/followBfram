@@ -1,11 +1,12 @@
 import axios from 'axios';
-import Graphcontent from "./components/Graph"
 import Nav from "./components/Nav"
 import { useEffect, useState } from 'react';
 import './App.css'
+import GraphBar from './components/GraphBar';
 
 type DataPoint = { x: string; y: number };
 type DataLocation = { region: string; count: number };
+type DataUserDaily = { date: string; count: number };
 interface DeviceInfo {
   _id: string;
   name: string;
@@ -22,9 +23,11 @@ function App() {
 
   const [dates, setDates] = useState<string[]>([])
   const [dailyCounts, setDailyCounts] = useState<number[]>([])
+  const [dailyCountall, setDailyCountall] = useState<DataUserDaily[]>([])
   const [cumulativeCounts, setCumulativeCounts] = useState<number[]>([])
   const [dataGraph, setDataGraph] = useState<DataPoint[]>([])
   const [dataGraph2, setDataGraph2] = useState<DataPoint[]>([])
+  const [dataGraph3, setDataGraph3] = useState<DataPoint[]>([])
   const [locationCount, setLocationCount] = useState<DataLocation[]>([])
 
   async function fetchAndPlotNewUsers() {
@@ -41,6 +44,7 @@ function App() {
       const allNewUsers: Set<string> = new Set();
       const uniqueNames: Set<string> = new Set();
       const regionCount: Record<string, number> = {};
+      const userDairyCount: Record<string, number> = {};
       // const dates: string[] = [];
       // const dailyCounts: number[] = [];
       // const cumulativeCounts: number[] = [];
@@ -61,6 +65,7 @@ function App() {
           // console.log(item.name)
           newUsersPerDay[date].add(item.name);
           allNewUsers.add(item.name);
+          userDairyCount[date] = (userDairyCount[date] || 0) + 1;
           if (!uniqueNames.has(item.name)) {
             uniqueNames.add(item.name);
             regionCount[item.region] = (regionCount[item.region] || 0) + 1;
@@ -71,6 +76,7 @@ function App() {
       setDailyCounts([]);
       setCumulativeCounts([]);
       setLocationCount([]);
+      setDailyCountall([]);
 
       Object.entries(newUsersPerDay)
         .sort(([a], [b]) => a.localeCompare(b))
@@ -92,6 +98,9 @@ function App() {
       Object.entries(regionCount).map(([region, count]) => {
         setLocationCount((prev) => [...prev, { region: region, count: count }])
       })
+      Object.entries(userDairyCount).sort(([a], [b]) => a.localeCompare(b)).forEach(([date, count]) => {
+        setDailyCountall((prev) => [...prev, { date: date, count: count }])
+      })
 
       // return { dates, dailyCounts, cumulativeCounts };
 
@@ -110,6 +119,7 @@ function App() {
     console.log(dates)
     console.log(dailyCounts)
     console.log(cumulativeCounts)
+    console.log(dailyCountall)
     const newGraphData = dates.map((v, i) => ({
       x: v,
       y: dailyCounts[i]
@@ -118,8 +128,13 @@ function App() {
       x: v,
       y: cumulativeCounts[i]
     }));
+    const newGraphData3 = dailyCountall.map((e) => ({
+      x: e.date,
+      y: e.count
+    }));
     setDataGraph(newGraphData);
     setDataGraph2(newGraphData2);
+    setDataGraph3(newGraphData3);
   }, [cumulativeCounts, dailyCounts, dates])
 
 
@@ -133,25 +148,47 @@ function App() {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start', width: '100%' }}>
       <Nav />
-      <div className='g-graph' >
-        <Graphcontent data={dataGraph} bar={true} topic="New user each a day" />
-        <Graphcontent data={dataGraph2} bar={false} topic="Cumulative user" />
-      </div>
-      <div className='g-list'>
-        <div style={{ background: '#fff', padding: '20px 10vw 20px 20px', margin: '20px 0 0vh 20px' }}>
-          <h2>Users per region : </h2>
-          {
-            locationCount.map((v, i) =>
-              (<h3 style={{ padding: 0, margin: 0, paddingLeft: '16px' }} key={i}>{v.region} : {v.count}</h3>))
-          }
+      <div className='layout'>
+
+        <div className='g-graph' >
+          <h3>Total {Math.max(...cumulativeCounts)} users.</h3>
+          <GraphBar data={dataGraph2} />
+          <h3>New users per day.</h3>
+          <GraphBar data={dataGraph} />
+          <h3>Number of usage.</h3>
+          <GraphBar data={dataGraph3} />
+          {/* <Graphcontent data={dataGraph} bar={true} topic="New user each a day" />
+        <Graphcontent data={dataGraph2} bar={false} topic="Cumulative user" /> */}
         </div>
-        <div style={{ background: '#fff', padding: '20px 10vw 20px 20px', margin: '20px 0 0vh 20px', height: 'fit-content' }}>
-          <h2>Total number of users : {cumulativeCounts.at(-1)} users</h2>
-          <h2></h2>
+        <div className='g-list'>
+          <div style={{}}>
+            <h3>Users per region : </h3>
+            <br />
+            <div className='grid-region-t'>
+              {/* <h4 style={{ padding: 0, margin: 0, paddingLeft: '16px' }} key={i}>{v.region} : {v.count}</h4> */}
+              <div className='grid-region-t-1'>Region</div>
+              <div className='grid-region-t-2'>User</div>
+            </div>
+            {
+              locationCount
+                .sort((a, b) => b.count - a.count) // or your preferred sort
+                .map((v) => (
+                  <div className='grid-region-d' key={v.region}>
+                    <h4>{v.region}</h4>
+                    <h4 style={{ textAlign: 'center' }}>{v.count}</h4>
+                  </div>
+                ))
+            }
+
+          </div>
+          {/* <div style={{ background: '#fff', padding: '20px 10vw 20px 20px', margin: '20px 0 0vh 20px', height: 'fit-content' }}>
+            <h2>Total number of users.</h2>
+            <h2></h2>
+          </div> */}
         </div>
+        <br />
+        <br />
       </div>
-      <br />
-      <br />
     </div>
   )
 }
