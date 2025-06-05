@@ -21,6 +21,7 @@ const GraphBar = ({ data }: Prop) => {
                 },
             ]}
             height={300}
+            skipAnimation
         />
     )
 }
