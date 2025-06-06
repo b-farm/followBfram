@@ -47,7 +47,7 @@ const default_userInfo: UserInfo = {
 function Datasharing() {
 
     const [listEmail, setListEmail] = useState<ListEmailProps[]>([]);
-    const [selectUser, setSelectUser] = useState<string>("");
+    const [selectUser, setSelectUser] = useState<string>("overall");
     const [userInfo, setUserInfo] = useState<UserInfo>(default_userInfo);
     const [userTime, setUserTime] = useState<string>("");
     const [userSensor, setUserSensor] = useState<UserSensor[]>([]);
@@ -55,6 +55,8 @@ function Datasharing() {
     const [userConnect, setUserConnect] = useState<UserConnect[]>([]);
     const [userCount, setUserCount] = useState<number>(0);
     const [loading, setLoading] = useState<boolean>(false);
+    const [allUser, setAllUser] = useState<number>(0);
+    const [allData, setAllData] = useState<number>(0);
 
     const GOOGLE_SHEET_ID = import.meta.env.VITE_GOOGLE_SHEET_ID;
     const GOOGLE_API_KEY = import.meta.env.VITE_GOOGLE_API_KEY;
@@ -185,14 +187,14 @@ function Datasharing() {
     }
 
 
-    const onClickUser = async () => {
+    const onClickUser = async (email: string | null) => {
         setLoading(true);
-        if (selectUser !== '') {
+        if ((selectUser !== '' && selectUser !== 'overall') || (email !== 'overall')) {
 
             const response = await axios.get(SHEET_URL);
             const sheetData = response.data;
 
-            const emailToFind = selectUser; // Extract email from the selected option
+            const emailToFind = email ? email : selectUser; // Extract email from the selected option
             const results = detailEmail(emailToFind, sheetData);
             const results_datainfo = await getDataSharing(emailToFind);
 
@@ -218,7 +220,7 @@ function Datasharing() {
             setUserSensor(results_datainfo ? results_datainfo[0] : []);
             setUserChip(results_datainfo ? results_datainfo[1] : []);
             setUserConnect(results_datainfo ? results_datainfo[2] : []);
-            setUserCount(listEmail.find(item => item.email === selectUser)?.count ?? 0)
+            setUserCount(listEmail.find(item => item.email === (email ? email : selectUser))?.count ?? 0)
         }
         setLoading(false);
     }
@@ -247,6 +249,8 @@ function Datasharing() {
                 }));
 
                 setListEmail(uniqueEmails);
+                setAllUser(uniqueEmails.length);
+                setAllData(uniqueEmails.reduce((acc, curr) => acc + curr.count, 0));
             }
         };
         fetchData();
@@ -257,19 +261,27 @@ function Datasharing() {
         <div className="layout2">
             <Nav />
             <div style={{ display: 'flex', position: 'relative', width: '100%' }}>
-                <select className="select-nnt" onChange={(e) => setSelectUser(e.target.value)} value={selectUser}>
-                    <option value="" hidden>Select user</option>
+                <select className="select-nnt" onChange={(e) => {
+                    setSelectUser(e.target.value);
+                    onClickUser(e.target.value);
+                }} value={selectUser}>
+                    {/* <option value="" hidden>Overall</option> */}
+                    <option value="overall">Overall</option>
                     {listEmail.sort((a, b) => b.count - a.count).map((item, key) => (
                         <option key={key} value={item.email}>
-                            {item.email} ({item.count})
+                            {item.email} ({item.count.toLocaleString()} data)
                         </option>
                     ))}
                 </select>
                 <div style={{ padding: '0 6px' }}></div>
-                <button onClick={onClickUser}>Search</button>
+                <button onClick={() => onClickUser(selectUser)}>Search</button>
                 <div className="loader" style={{ display: loading ? '' : 'none' }}></div>
             </div>
-            <div className="my-grid">
+            <div className="detailoverall" style={{ display: selectUser === "overall" ? '' : 'none', padding: '40px 0' }}>
+                <h3>Users sharing data: {allUser.toLocaleString()} users.</h3>
+                <h3>Total data in the database: {allData.toLocaleString()} data.</h3>
+            </div>
+            <div className="my-grid" style={{ display: selectUser !== "overall" ? '' : 'none' }}>
                 <div className="card-1">
                     <div className="card-1-header">
                         <h3>Sensor</h3>
