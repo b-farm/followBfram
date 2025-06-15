@@ -1,7 +1,11 @@
 .layout {
   display: grid;
-  grid-template-columns: 60% 40%;
-  width: 100%;
+  grid-template-columns: 33% 33% 33%;
+  gap: 10px;
+  width: 90%;
+  background-color: #e8edf2;
+  margin-top: 80px;
+  margin-bottom: 50px;
 }
 
 .logo {
@@ -21,8 +25,9 @@
 
 .g-graph {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: flex-start;
+  flex-wrap: wrap;
   /* align-items: flex-start; */
   width: 96%;
   padding: 80px 0 0px 4%;
@@ -30,9 +35,22 @@
   text-align: center;
 }
 
+.block-g {
+  background: #fff;
+  /* margin: 16px; */
+  border-radius: 10px;
+  padding: 16px 0 8px;
+  width: 100%;
+}
+
+
+.block-g h3 {
+  padding: 0 5%;
+}
+
 h3 {
   color: #2835a8;
-  font-size: 32px;
+  font-size: 24px;
   margin: 0;
   padding: 0;
   font-weight: 500;
@@ -40,7 +58,7 @@ h3 {
 
 h4 {
   color: #4858ee;
-  font-size: 24px;
+  font-size: 18px;
   margin: 0;
   padding: 0;
   font-weight: 400;
@@ -69,7 +87,7 @@ h4 {
 .grid-region-t-1 {
   background: #4858ee;
   color: #fff;
-  font-size: 24px;
+  font-size: 18px;
   font-weight: 500;
 }
 
@@ -77,15 +95,8 @@ h4 {
 .grid-region-t-2 {
   background: #2835a8;
   color: #fff;
-  font-size: 24px;
+  font-size: 18px;
   font-weight: 500;
-}
-
-.block-g {
-  background: #fff;
-  margin: 16px;
-  border-radius: 10px;
-  padding: 16px 0 8px;
 }
 
 

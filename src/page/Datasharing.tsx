@@ -32,6 +32,7 @@ type UserInfo = {
     email: string;
     objective: string;
     farmtype: string;
+    suggest: string;
 };
 
 const default_userInfo: UserInfo = {
@@ -41,7 +42,8 @@ const default_userInfo: UserInfo = {
     phone: '',
     email: '',
     objective: '',
-    farmtype: ''
+    farmtype: '',
+    suggest: ''
 };
 
 function Datasharing() {
@@ -78,7 +80,6 @@ function Datasharing() {
     }
 
     const detailEmail = (email: string, sheetData: { values: string[][] }) => {
-        console.log("sheetData:", sheetData);
         const rows = sheetData.values;
         const headers = rows[0];
         const emailIndex = headers.indexOf("Email");
@@ -103,12 +104,13 @@ function Datasharing() {
 
         // Convert row to object with headers
         const headName = [
-            "Timestamp", "Name", "Address", "Phone", "Email", "Objective", "Farm Type"
+            "Timestamp", "Name", "Address", "Phone", "Email", "Objective", "Farm Type", "Suggest"
         ];
         const record: { [key: string]: string } = {};
         headers.forEach((_, i) => {
-            record[headName[i]] = mostRecentRow[i] || "";
+            record[headName[i]] = mostRecentRow[i] || "-";
         });
+        record["Suggest"] = "-";
 
         const record_table = Object.entries(record).map(([key, value]) => ({
             Info: key,
@@ -215,7 +217,8 @@ function Datasharing() {
                 phone: results ? results[3].Detail : '',
                 email: results ? results[4].Detail : '',
                 objective: results ? results[5].Detail : '',
-                farmtype: results ? results[6].Detail : ''
+                farmtype: results ? results[6].Detail : '',
+                suggest: results ? results[7].Detail : ''
             })
             setUserSensor(results_datainfo ? results_datainfo[0] : []);
             setUserChip(results_datainfo ? results_datainfo[1] : []);
@@ -359,6 +362,10 @@ function Datasharing() {
                         <div className="card-3-list-n">
                             <h4>Farm type</h4>
                             <h3>{userInfo.farmtype}</h3>
+                        </div>
+                        <div className="card-3-list-n">
+                            <h4>Suggest</h4>
+                            <h3>{userInfo.suggest}</h3>
                         </div>
                         <div className="card-3-list-n">
                             <h4>Duration</h4>
