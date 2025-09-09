@@ -9,7 +9,7 @@ import ArcDesign from '../components/Gauge';
 
 type DataPoint = { x: string; y: number };
 type DataLocation = { region: string; count: number };
-type DataUserDaily = { date: string; count: number };
+type DataDateCount = { date: string; count: number };
 interface DeviceInfo {
   _id: string;
   name: string;
@@ -32,14 +32,17 @@ function Usagestate() {
 
   const [dates, setDates] = useState<string[]>([])
   const [dailyCounts, setDailyCounts] = useState<number[]>([])
-  const [dailyCountall, setDailyCountall] = useState<DataUserDaily[]>([])
+  const [dailyCountall, setDailyCountall] = useState<DataDateCount[]>([])
+  const [registCount, setRegistCount] = useState<DataDateCount[]>([])
   const [cumulativeCounts, setCumulativeCounts] = useState<number[]>([])
   const [dataGraph, setDataGraph] = useState<DataPoint[]>([])
   const [dataGraph2, setDataGraph2] = useState<DataPoint[]>([])
   const [dataGraph3, setDataGraph3] = useState<DataPoint[]>([])
+  const [dataGraph4, setDataGraph4] = useState<DataPoint[]>([])
   const [locationCount, setLocationCount] = useState<DataLocation[]>([])
   const [nowHS, setNowHS] = useState<number>(0)
   const [allHS, setAllHS] = useState<number>(0)
+  const saveTime: Record<string, number> = {};
 
   async function fetchAndPlotNewUsers() {
     // const API_URL = '/api/usage';
@@ -120,13 +123,14 @@ function Usagestate() {
     // const dd = String(today.getDate()).padStart(2, '0');
     // const todayStr = `${yyyy}-${mm}-${dd}`;
 
-    const fiveHoursAgo = new Date(today.getTime() - 5 * 60 * 60 * 1000);
+    const fiveHoursAgo = new Date(today.getTime() - 1 * 60 * 60 * 1000);
     const yyyy5 = fiveHoursAgo.getFullYear();
     const mm5 = String(fiveHoursAgo.getMonth() + 1).padStart(2, '0');
     const dd5 = String(fiveHoursAgo.getDate()).padStart(2, '0');
     const hh5 = String(fiveHoursAgo.getHours()).padStart(2, '0');
     const min5 = String(fiveHoursAgo.getMinutes()).padStart(2, '0');
-    const fiveHoursAgoStr = `${yyyy5}-${mm5}-${dd5}T${hh5}:${min5}`;
+    const sec5 = String(fiveHoursAgo.getSeconds()).padStart(2, '0');
+    const fiveHoursAgoStr = `${yyyy5}-${mm5}-${dd5}-${hh5}-${min5}-${sec5}`;
 
     const timesWithin5Hours = data
       .filter(item => item.time >= fiveHoursAgoStr && item.time <= today.toISOString())
@@ -144,9 +148,41 @@ function Usagestate() {
     // return timesToday;
   }
 
+  const userTime = async () => {
+    const GOOGLE_SHEET_ID = import.meta.env.VITE_GOOGLE_SHEET_ID;
+    const GOOGLE_API_KEY = import.meta.env.VITE_GOOGLE_API_KEY;
+    const SHEET_URL = `https://sheets.googleapis.com/v4/spreadsheets/${GOOGLE_SHEET_ID}/values/Form%20Responses%201!A:G?key=${GOOGLE_API_KEY}`;
+
+    const response = await axios.get(SHEET_URL);
+    const sheetData = response.data;
+    Object.keys(saveTime).forEach(key => delete saveTime[key]);
+
+    // const countDate: { date: string; count: number; }[] = [];
+    let cumulativeSheetUsers: number = 0;
+    sheetData.values.forEach((data: string[], index: number) => {
+      if (index === 0) return; // Skip header row
+      const readDate = data[0].split(" ")[0];
+      saveTime[readDate] = (saveTime[readDate] || cumulativeSheetUsers) + 1;
+      cumulativeSheetUsers = saveTime[readDate];
+      // if (!saveTime[readDate]) {
+      //   saveTime[readDate] = 1;
+      //   countDate.push({ date: readDate, count: 1 });
+      // } else {
+      //   saveTime[readDate]++;
+      //   const dateEntry = countDate.find(entry => entry.date === readDate);
+      //   if (dateEntry) {
+      //     dateEntry.count = saveTime[readDate];
+      //   }
+      // }
+    });
+    setRegistCount(saveTime ? Object.entries(saveTime).map(([date, count]) => ({ date, count })) : []);
+    console.table(saveTime); // show all items, not truncated 
+  };
+
   useEffect(() => {
     fetchAndPlotNewUsers()
     getTodayTimes()
+    userTime()
   }, [])
 
   useEffect(() => {
@@ -162,27 +198,35 @@ function Usagestate() {
       x: e.date,
       y: e.count
     }));
+    const newGraphData4 = registCount.map((e) => ({
+      x: e.date,
+      y: e.count
+    }));
+    console.log(registCount);
+    console.log(newGraphData4);
     setDataGraph(newGraphData);
     setDataGraph2(newGraphData2);
     setDataGraph3(newGraphData3);
-  }, [cumulativeCounts, dailyCounts, dates])
+    setDataGraph4(newGraphData4);
+  }, [cumulativeCounts, dailyCounts, dates, registCount, dailyCountall])
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'center', width: '100%' }}>
       <Nav />
       <div className='layout'>
-
         <div className='block-g'>
-          <h3>Total {Math.max(...cumulativeCounts)} users.</h3>
+          <h3>
+            Registrants : {Math.max(...dataGraph4.map(item => item.y)) === -Infinity ? 0 : Math.max(...dataGraph4.map(item => item.y))} people.
+          </h3>
+          <GraphLine data={dataGraph4.filter(item => typeof item.y === 'number' && !isNaN(item.y))} />
+        </div>
+        <div className='block-g'>
+          <h3>Logged in B-Farm : {Math.max(...dataGraph2.map(item => item.y)) === -Infinity ? 0 : Math.max(...dataGraph2.map(item => item.y))} users.</h3>
           <GraphLine data={dataGraph2} />
         </div>
         <div className='block-g'>
-          <h3>New users per day.</h3>
+          <h3>Today : {Math.max(...dataGraph.map(item => item.y)) === -Infinity ? 0 : Math.max(...dataGraph.map(item => item.y))} New users.</h3>
           <GraphBar data={dataGraph} />
-        </div>
-        <div className='block-g'>
-          <h3>Number of Open Program.</h3>
-          <GraphBar data={dataGraph3} />
         </div>
         <div className='block-g'>
           <h3>Handysense board online</h3>
@@ -211,6 +255,10 @@ function Usagestate() {
                 ))
             }
           </div>
+        </div>
+        <div className='block-g'>
+          <h3>Open App : {dataGraph3.map(item => item.y).reduce((acc, cur) => acc + cur, 0).toLocaleString()} times.</h3>
+          <GraphBar data={dataGraph3} />
         </div>
       </div>
     </div>

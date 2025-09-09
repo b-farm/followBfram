@@ -212,4 +212,24 @@ async function main() {
     }
 }
 
-main();
+const userTime = async () => {
+    const response = await axios.get(SHEET_URL);
+    const sheetData = response.data;
+    const saveTime = new Set();
+    const countDate = [];
+    sheetData.values.map((data) => {
+        const readDate = data[0].split(" ")[0];
+        if(!saveTime.has(readDate)) {
+            saveTime.add(readDate);
+            countDate.push({date: readDate, count: 1});
+        } else {
+            const dateEntry = countDate.find(entry => entry.date === readDate);
+            if (dateEntry) {
+                dateEntry.count++;
+            }
+        }
+    });
+    console.table(countDate); // show all items, not truncated
+};
+
+userTime();

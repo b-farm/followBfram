@@ -134,7 +134,7 @@ function Datasharing() {
 
     const getDataSharing = async (email: string) => {
         try {
-            const response = await axios.post(BFARM_DATASHARING_API, { email });
+            const response = await axios.post(BFARM_DATASHARING_API, { email }, { timeout: 60000 });
             const data = response.data;
             const data_sensor = data.sensor;
             const data_sensor_n = data.sensor_count;
@@ -164,11 +164,11 @@ function Datasharing() {
             const record_sensor_sort = Object.entries(record_sensor).map(([key, value]) => ({
                 sensor: key,
                 count: value
-            })).sort((b, a) => a.count - b.count);
+            })).sort((a, b) => b.count - a.count);
             const record_chip_sort = Object.entries(record_chip).map(([key, value]) => ({
                 chip: decimalToMacAddress(Number(key)),
                 count: value
-            })).sort((b, a) => a.count - b.count);
+            })).sort((a, b) => b.count - a.count);
             const connect_meaning = {
                 "N": "NETPIE",
                 "A": "MAGELLAN",
@@ -177,7 +177,7 @@ function Datasharing() {
             const record_connect_sort = Object.entries(record_connect).map(([key, value]) => ({
                 connect: connect_meaning[key as keyof typeof connect_meaning],
                 count: value
-            })).sort((b, a) => a.count - b.count);
+            })).sort((a, b) => b.count - a.count);
 
             // console.table(record_);
 
