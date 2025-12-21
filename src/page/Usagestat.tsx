@@ -35,7 +35,7 @@ function Usagestate() {
   const [dailyCountall, setDailyCountall] = useState<DataDateCount[]>([])
   const [registCount, setRegistCount] = useState<DataDateCount[]>([])
   const [cumulativeCounts, setCumulativeCounts] = useState<number[]>([])
-  const [dataGraph, setDataGraph] = useState<DataPoint[]>([])
+  // const [dataGraph, setDataGraph] = useState<DataPoint[]>([])
   const [dataGraph2, setDataGraph2] = useState<DataPoint[]>([])
   const [dataGraph3, setDataGraph3] = useState<DataPoint[]>([])
   const [dataGraph4, setDataGraph4] = useState<DataPoint[]>([])
@@ -124,17 +124,28 @@ function Usagestate() {
     // const todayStr = `${yyyy}-${mm}-${dd}`;
 
     const fiveHoursAgo = new Date(today.getTime() - 1 * 60 * 60 * 1000);
-    const yyyy5 = fiveHoursAgo.getFullYear();
-    const mm5 = String(fiveHoursAgo.getMonth() + 1).padStart(2, '0');
-    const dd5 = String(fiveHoursAgo.getDate()).padStart(2, '0');
-    const hh5 = String(fiveHoursAgo.getHours()).padStart(2, '0');
-    const min5 = String(fiveHoursAgo.getMinutes()).padStart(2, '0');
-    const sec5 = String(fiveHoursAgo.getSeconds()).padStart(2, '0');
-    const fiveHoursAgoStr = `${yyyy5}-${mm5}-${dd5}-${hh5}-${min5}-${sec5}`;
+    // const yyyy5 = fiveHoursAgo.getFullYear();
+    // const mm5 = String(fiveHoursAgo.getMonth() + 1).padStart(2, '0');
+    // const dd5 = String(fiveHoursAgo.getDate()).padStart(2, '0');
+    // const hh5 = String(fiveHoursAgo.getHours()).padStart(2, '0');
+    // const min5 = String(fiveHoursAgo.getMinutes()).padStart(2, '0');
+    // const sec5 = String(fiveHoursAgo.getSeconds()).padStart(2, '0');
+    // const fiveHoursAgoStr = `${yyyy5}-${mm5}-${dd5}-${hh5}-${min5}-${sec5}`;
 
-    const timesWithin5Hours = data
-      .filter(item => item.time >= fiveHoursAgoStr && item.time <= today.toISOString())
-      .map(item => item.time);
+    // const timesWithin5Hours = data
+    //   .filter(item => item.time >= fiveHoursAgoStr && item.time <= today.toISOString())
+    //   .map(item => item.time);
+
+    function parseCustomDate(str: string) {
+      // "2025-10-16-02-25-50" → "2025-10-16T02:25:50"
+      const iso = str.replace(/^(\d{4}-\d{2}-\d{2})-(\d{2})-(\d{2})-(\d{2})$/, '$1T$2:$3:$4');
+      return new Date(iso);
+    }
+
+    const filtered = data.filter(item => {
+      const t = parseCustomDate(item.time);
+      return t >= fiveHoursAgo && t <= today;
+    });
 
     // You can use timesWithin5Hours as needed, e.g. console.log(timesWithin5Hours)
 
@@ -143,7 +154,7 @@ function Usagestate() {
     //   .filter(item => item.time.startsWith(todayStr))
     //   .map(item => item.time);
 
-    setNowHS(timesWithin5Hours.length);
+    setNowHS(filtered.length);
     setAllHS(data.length);
     // return timesToday;
   }
@@ -186,10 +197,10 @@ function Usagestate() {
   }, [])
 
   useEffect(() => {
-    const newGraphData = dates.map((v, i) => ({
-      x: v,
-      y: dailyCounts[i]
-    }));
+    // const newGraphData = dates.map((v, i) => ({
+    //   x: v,
+    //   y: dailyCounts[i]
+    // }));
     const newGraphData2 = dates.map((v, i) => ({
       x: v,
       y: cumulativeCounts[i]
@@ -204,7 +215,7 @@ function Usagestate() {
     }));
     console.log(registCount);
     console.log(newGraphData4);
-    setDataGraph(newGraphData);
+    // setDataGraph(newGraphData);
     setDataGraph2(newGraphData2);
     setDataGraph3(newGraphData3);
     setDataGraph4(newGraphData4);
@@ -225,9 +236,13 @@ function Usagestate() {
           <GraphLine data={dataGraph2} />
         </div>
         <div className='block-g'>
-          <h3>Today : {Math.max(...dataGraph.map(item => item.y)) === -Infinity ? 0 : Math.max(...dataGraph.map(item => item.y))} New users.</h3>
-          <GraphBar data={dataGraph} />
+          <h3>Open App : {dataGraph3.map(item => item.y).reduce((acc, cur) => acc + cur, 0).toLocaleString()} times.</h3>
+          <GraphBar data={dataGraph3} />
         </div>
+        {/* <div className='block-g'>
+          <h3>New users : {Math.max(...dataGraph.map(item => item.y)) === -Infinity ? 0 : Math.max(...dataGraph.map(item => item.y))} New users.</h3>
+          <GraphBar data={dataGraph} />
+        </div> */}
         <div className='block-g'>
           <h3>Handysense board online</h3>
           <div style={{ justifyItems: 'center', justifyContent: 'center', textAlign: 'start', display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', margin: '4% 0' }}>
@@ -255,10 +270,6 @@ function Usagestate() {
                 ))
             }
           </div>
-        </div>
-        <div className='block-g'>
-          <h3>Open App : {dataGraph3.map(item => item.y).reduce((acc, cur) => acc + cur, 0).toLocaleString()} times.</h3>
-          <GraphBar data={dataGraph3} />
         </div>
       </div>
     </div>
