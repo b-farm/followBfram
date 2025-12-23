@@ -1,8 +1,8 @@
 .nav {
     width: 92%;
-    height: 50px;
-    background-color: #2835a8;
-    position: fixed;
+    height: 60px;
+    background: linear-gradient(90deg, #f4f4f4, var(--color-main));
+    /* position: fixed; */
     top: 0;
     left: 0;
     display: flex;
@@ -10,7 +10,15 @@
     align-items: center;
     color: #ffffff;
     padding: 0 4%;
-    z-index: 2;
+    z-index: 999;
+}
+
+.nav h2 {
+    color: var(--color-dark);
+    margin: 0;
+    padding: 0;
+    font-size: 24px;
+    font-weight: 500;
 }
 
 
@@ -24,8 +32,8 @@ a {
     color: #ffffff;
     text-decoration: none;
     font-size: 18px;
-    padding: 0 10px;
-    margin: 0 10px;
+    padding: 0 6px;
+    margin: 0 4px;
     border-bottom: #ffffff solid 4px;
     display: flex;
     align-items: center;
@@ -37,8 +45,6 @@ a:hover {
     color: #ffffff88;
     text-decoration: none;
     font-size: 18px;
-    padding: 0 10px;
-    margin: 0 10px;
     border-bottom: #ffffff88 solid 4px;
     display: flex;
     align-items: center;
@@ -47,12 +53,13 @@ a:hover {
 @media (max-width: 1000px) {
     .nav-a {
         position: fixed;
-        background-color: #2835a8;
         bottom: 0;
         left: 0;
         height: fit-content;
         padding: 10px 0;
         width: 100%;
+        background-color: var(--color-dark);
+        z-index: 999;
     }
 
     a {

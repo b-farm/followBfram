@@ -261,115 +261,121 @@ function Datasharing() {
 
 
     return (
-        <div className="layout2">
+        <div className="layout1">
             <Nav />
-            <div style={{ display: 'flex', position: 'relative', width: '100%' }}>
-                <select className="select-nnt" onChange={(e) => {
-                    setSelectUser(e.target.value);
-                    onClickUser(e.target.value);
-                }} value={selectUser}>
-                    {/* <option value="" hidden>Overall</option> */}
-                    <option value="overall">Overall</option>
-                    {listEmail.sort((a, b) => b.count - a.count).map((item, key) => (
-                        <option key={key} value={item.email}>
-                            {item.email} ({item.count.toLocaleString()} data)
-                        </option>
-                    ))}
-                </select>
-                <div style={{ padding: '0 6px' }}></div>
-                <button onClick={() => onClickUser(selectUser)}>Search</button>
-                <div className="loader" style={{ display: loading ? '' : 'none' }}></div>
-            </div>
-            <div className="detailoverall" style={{ display: selectUser === "overall" ? '' : 'none', padding: '40px 0' }}>
-                <h3>Users sharing data: {allUser.toLocaleString()} users.</h3>
-                <h3>Total data in the database: {allData.toLocaleString()} data.</h3>
-            </div>
-            <div className="my-grid" style={{ display: selectUser !== "overall" ? '' : 'none' }}>
-                <div className="card-1">
-                    <div className="card-1-header">
-                        <h3>Sensor</h3>
-                        <h3>{userSensor.length}</h3>
-                    </div>
-                    <div className="card-1-list">
-                        {userSensor.map((item, index) => (
-                            <div className="card-1-list-n" key={index}>
-                                <h4>{item.sensor}</h4>
-                                <h4>{item.count.toLocaleString()}</h4>
-                            </div>
+            <br />
+            <h1 style={{textAlign: 'center'}}>Data Sharing</h1>
+            <br />
+            <div className="layout2">
+
+                <div style={{ display: 'flex', position: 'relative', width: '100%' }}>
+                    <select className="select-nnt" onChange={(e) => {
+                        setSelectUser(e.target.value);
+                        onClickUser(e.target.value);
+                    }} value={selectUser}>
+                        {/* <option value="" hidden>Overall</option> */}
+                        <option value="overall">Overall</option>
+                        {listEmail.sort((a, b) => b.count - a.count).map((item, key) => (
+                            <option key={key} value={item.email}>
+                                {item.email} ({item.count.toLocaleString()} data)
+                            </option>
                         ))}
-                    </div>
+                    </select>
+                    <div style={{ padding: '0 6px' }}></div>
+                    <button onClick={() => onClickUser(selectUser)}>Search</button>
+                    <div className="loader" style={{ display: loading ? '' : 'none' }}></div>
                 </div>
-                <div className="card-1">
-                    <div className="card-1-header">
-                        <h3>Chip</h3>
-                        <h3>{userChip.length}</h3>
+                <div className="detailoverall" style={{ display: selectUser === "overall" ? '' : 'none', padding: '40px 0' }}>
+                    <h3>Users sharing data: {allUser.toLocaleString()} users.</h3>
+                    <h3>Total data in the database: {allData.toLocaleString()} data.</h3>
+                </div>
+                <div className="my-grid" style={{ display: selectUser !== "overall" ? '' : 'none' }}>
+                    <div className="card-1">
+                        <div className="card-1-header">
+                            <h3>Sensor</h3>
+                            <h3>{userSensor.length}</h3>
+                        </div>
+                        <div className="card-1-list">
+                            {userSensor.map((item, index) => (
+                                <div className="card-1-list-n" key={index}>
+                                    <h4>{item.sensor}</h4>
+                                    <h4>{item.count.toLocaleString()}</h4>
+                                </div>
+                            ))}
+                        </div>
                     </div>
-                    <div className="card-1-list">
-                        {userChip.map((item, index) => (
-                            <div className="card-1-list-n" key={index}>
-                                <h4>{item.chip}</h4>
-                                <h4>{item.count.toLocaleString()}</h4>
+                    <div className="card-1">
+                        <div className="card-1-header">
+                            <h3>Chip</h3>
+                            <h3>{userChip.length}</h3>
+                        </div>
+                        <div className="card-1-list">
+                            {userChip.map((item, index) => (
+                                <div className="card-1-list-n" key={index}>
+                                    <h4>{item.chip}</h4>
+                                    <h4>{item.count.toLocaleString()}</h4>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                    <div className="card-2">
+                        <div className="card-2-header">
+                            <h3>Connect</h3>
+                        </div>
+                        <div className="card-2-list">
+                            {userConnect.map((item, index) => (
+                                <div className="card-1-list-n" key={index}>
+                                    <h4>{item.connect}</h4>
+                                    <h4>{item.count.toLocaleString()}</h4>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                    <div className="card-2">
+                        <div className="card-2-header">
+                            <h3>Total Data</h3>
+                        </div>
+                        <h2 style={{ display: userSensor.length > 0 ? '' : 'none' }}>
+                            {userCount.toLocaleString() ?? ""}
+                        </h2>
+                    </div>
+                    <div className="card-3">
+                        <div className="card-3-header">
+                            <h3>User Info</h3>
+                        </div>
+                        <div className="card-3-list" style={{ display: userSensor.length > 0 ? '' : 'none' }}>
+                            <div className="card-3-list-n">
+                                <h4>Name</h4>
+                                <h3>{userInfo.name}</h3>
                             </div>
-                        ))}
-                    </div>
-                </div>
-                <div className="card-2">
-                    <div className="card-2-header">
-                        <h3>Connect</h3>
-                    </div>
-                    <div className="card-2-list">
-                        {userConnect.map((item, index) => (
-                            <div className="card-1-list-n" key={index}>
-                                <h4>{item.connect}</h4>
-                                <h4>{item.count.toLocaleString()}</h4>
+                            <div className="card-3-list-n">
+                                <h4>Address</h4>
+                                <h3>{userInfo.address}</h3>
                             </div>
-                        ))}
-                    </div>
-                </div>
-                <div className="card-2">
-                    <div className="card-2-header">
-                        <h3>Total Data</h3>
-                    </div>
-                    <h2 style={{ display: userSensor.length > 0 ? '' : 'none' }}>
-                        {userCount.toLocaleString() ?? ""}
-                    </h2>
-                </div>
-                <div className="card-3">
-                    <div className="card-3-header">
-                        <h3>User Info</h3>
-                    </div>
-                    <div className="card-3-list" style={{ display: userSensor.length > 0 ? '' : 'none' }}>
-                        <div className="card-3-list-n">
-                            <h4>Name</h4>
-                            <h3>{userInfo.name}</h3>
-                        </div>
-                        <div className="card-3-list-n">
-                            <h4>Address</h4>
-                            <h3>{userInfo.address}</h3>
-                        </div>
-                        <div className="card-3-list-n">
-                            <h4>Phone</h4>
-                            <h3>{userInfo.phone}</h3>
-                        </div>
-                        <div className="card-3-list-n">
-                            <h4>Email</h4>
-                            <h3>{userInfo.email}</h3>
-                        </div>
-                        <div className="card-3-list-n">
-                            <h4>Objective</h4>
-                            <h3>{userInfo.objective}</h3>
-                        </div>
-                        <div className="card-3-list-n">
-                            <h4>Farm type</h4>
-                            <h3>{userInfo.farmtype}</h3>
-                        </div>
-                        <div className="card-3-list-n">
-                            <h4>Suggest</h4>
-                            <h3>{userInfo.suggest}</h3>
-                        </div>
-                        <div className="card-3-list-n">
-                            <h4>Duration</h4>
-                            <h3>{userTime}</h3>
+                            <div className="card-3-list-n">
+                                <h4>Phone</h4>
+                                <h3>{userInfo.phone}</h3>
+                            </div>
+                            <div className="card-3-list-n">
+                                <h4>Email</h4>
+                                <h3>{userInfo.email}</h3>
+                            </div>
+                            <div className="card-3-list-n">
+                                <h4>Objective</h4>
+                                <h3>{userInfo.objective}</h3>
+                            </div>
+                            <div className="card-3-list-n">
+                                <h4>Farm type</h4>
+                                <h3>{userInfo.farmtype}</h3>
+                            </div>
+                            <div className="card-3-list-n">
+                                <h4>Suggest</h4>
+                                <h3>{userInfo.suggest}</h3>
+                            </div>
+                            <div className="card-3-list-n">
+                                <h4>Duration</h4>
+                                <h3>{userTime}</h3>
+                            </div>
                         </div>
                     </div>
                 </div>

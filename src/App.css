@@ -4,7 +4,14 @@
   width: 100%;
   min-height: 100vh;
   background-color: #e8edf2;
+  --color-main: #65a744;
+  --color-dark: #457a36;
+  --color-light: #cff0b4;
+  /* --color-main: #4858ee; */
+}
 
+::-webkit-scrollbar {
+  display: none;
 }
 
 ::-webkit-scrollbar {
@@ -19,7 +26,7 @@
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: #4858ee;
+  background: var(--color-main);
   border-radius: 8px;
 }
 

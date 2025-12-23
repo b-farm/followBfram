@@ -15,12 +15,13 @@ export default function BasicGauge({ now, all }: Props) {
             startAngle={0}
             text={`${now} / ${all}`}
             cornerRadius="50%"
+            style={{overflow: 'hidden'}}
             sx={{
                 [`& .${gaugeClasses.valueText}`]: {
                     fontSize: 40,
                 },
                 [`& .${gaugeClasses.valueArc}`]: {
-                    fill: '#4858ee',
+                    fill: 'var(--color-main)',
                 },
                 [`& .${gaugeClasses.referenceArc}`]: {
                     fill: '#f4f5fe',

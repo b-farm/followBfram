@@ -224,19 +224,24 @@ function Usagestate() {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'center', width: '100%' }}>
       <Nav />
+      <br />
+      <h1>B-Farm Status</h1>
       <div className='layout'>
         <div className='block-g'>
+          <div className='disabletouch'></div>
           <h3>
-            Registrants : {Math.max(...dataGraph4.map(item => item.y)) === -Infinity ? 0 : Math.max(...dataGraph4.map(item => item.y))} people.
+            Registered Users : {Math.max(...dataGraph4.map(item => item.y)) === -Infinity ? 0 : Math.max(...dataGraph4.map(item => item.y)).toLocaleString()}
           </h3>
           <GraphLine data={dataGraph4.filter(item => typeof item.y === 'number' && !isNaN(item.y))} />
         </div>
         <div className='block-g'>
-          <h3>Logged in B-Farm : {Math.max(...dataGraph2.map(item => item.y)) === -Infinity ? 0 : Math.max(...dataGraph2.map(item => item.y))} users.</h3>
+          <div className='disabletouch'></div>
+          <h3>Logged-in B-Farm Users : {Math.max(...dataGraph2.map(item => item.y)) === -Infinity ? 0 : Math.max(...dataGraph2.map(item => item.y)).toLocaleString()}</h3>
           <GraphLine data={dataGraph2} />
         </div>
         <div className='block-g'>
-          <h3>Open App : {dataGraph3.map(item => item.y).reduce((acc, cur) => acc + cur, 0).toLocaleString()} times.</h3>
+          <div className='disabletouch'></div>
+          <h3>App Opens : {dataGraph3.map(item => item.y).reduce((acc, cur) => acc + cur, 0).toLocaleString()}</h3>
           <GraphBar data={dataGraph3} />
         </div>
         {/* <div className='block-g'>
@@ -244,17 +249,16 @@ function Usagestate() {
           <GraphBar data={dataGraph} />
         </div> */}
         <div className='block-g'>
-          <h3>Handysense board online</h3>
-          <div style={{ justifyItems: 'center', justifyContent: 'center', textAlign: 'start', display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', margin: '4% 0' }}>
+          <div className='disabletouch'></div>
+          <h3>HandySense Boards Online.</h3>
+          <h3>(via B-Farm)</h3>
+          <div style={{ justifyItems: 'center', justifyContent: 'center', textAlign: 'start', display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', margin: '4% 0', overflow: 'hidden' }}>
             <ArcDesign now={nowHS} all={allHS} />
           </div>
         </div>
         <div className='block-g'>
-          <ThailandMap data={locationCount.sort((a, b) => b.count - a.count)} />
-        </div>
-        <div className='block-g'>
-          <h3>User in Thailand.</h3>
-          <div style={{ padding: '0 20px 16px', aspectRatio: '4/3', overflowX: 'scroll' }}>
+          <h3>Users in Thailand.</h3>
+          <div style={{ padding: '0 20px 16px', height: '400px', overflowX: 'scroll' }}>
             <div className='grid-region-t'>
               <div className='grid-region-t-1'>Region</div>
               <div className='grid-region-t-2'>User</div>
@@ -270,6 +274,10 @@ function Usagestate() {
                 ))
             }
           </div>
+        </div>
+        <div className='block-g'>
+          <h3>Users in Thailand.</h3>
+          <ThailandMap data={locationCount.sort((a, b) => b.count - a.count)} />
         </div>
       </div>
     </div>

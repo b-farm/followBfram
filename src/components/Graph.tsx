@@ -21,7 +21,7 @@ const Graphcontent = ({ data, bar, topic }: Prop) => {
                         // marker: { color: ' #304674' }, // Marker customization
                         type: bar ? 'bar' : 'scatter', // Changed to bar chart
                         mode: bar ? 'none' : 'lines+markers',
-                        marker: { color: '#304674' },
+                        marker: { color: 'var(--color-main)' },
                     },
                 ]}
                 layout={{
@@ -40,7 +40,7 @@ const Graphcontent = ({ data, bar, topic }: Prop) => {
                 config={{
                     displayModeBar: false, // Disable mode bar
                     responsive: true, // Make the chart responsive
-                    staticPlot: false,
+                    staticPlot: screen.width > screen.height ? false : true,
                 }}
                 style={{ zIndex: '0', position: 'relative', borderRadius: '10px' }} // Optional styling
             />

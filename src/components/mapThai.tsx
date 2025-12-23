@@ -41,7 +41,7 @@ const ThailandMap = ({ data }: { data: DataLocation[] }) => {
         title: { text: '' },
         colorAxis: {
             min: 0,
-            stops: [[0, '#EFEFFF'], [0.5, '#4444FF'], [1, '#000022']]
+            stops: [[0, 'var(--color-light)'], [0.5, '#4858ee'], [1, '#aa0000']],
         },
         series: [{
             type: 'map',

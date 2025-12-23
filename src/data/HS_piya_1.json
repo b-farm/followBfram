@@ -1,0 +1,337 @@
+[
+    {
+        "province": "กรุงเทพมหานคร",
+        "region": "กรุงเทพฯ + ปริมณฑล",
+        "hs_board_count": 8
+    },
+    {
+        "province": "นนทบุรี",
+        "region": "กรุงเทพฯ + ปริมณฑล",
+        "hs_board_count": 9
+    },
+    {
+        "province": "ปทุมธานี",
+        "region": "กรุงเทพฯ + ปริมณฑล",
+        "hs_board_count": 9
+    },
+    {
+        "province": "สมุทรปราการ",
+        "region": "กรุงเทพฯ + ปริมณฑล",
+        "hs_board_count": 9
+    },
+    {
+        "province": "สมุทรสาคร",
+        "region": "กรุงเทพฯ + ปริมณฑล",
+        "hs_board_count": 8
+    },
+    {
+        "province": "นครปฐม",
+        "region": "กรุงเทพฯ + ปริมณฑล",
+        "hs_board_count": 9
+    },
+    {
+        "province": "พระนครศรีอยุธยา",
+        "region": "ภาคกลาง",
+        "hs_board_count": 3
+    },
+    {
+        "province": "สระบุรี",
+        "region": "ภาคกลาง",
+        "hs_board_count": 4
+    },
+    {
+        "province": "ลพบุรี",
+        "region": "ภาคกลาง",
+        "hs_board_count": 4
+    },
+    {
+        "province": "อ่างทอง",
+        "region": "ภาคกลาง",
+        "hs_board_count": 4
+    },
+    {
+        "province": "สุพรรณบุรี",
+        "region": "ภาคกลาง",
+        "hs_board_count": 3
+    },
+    {
+        "province": "ชัยนาท",
+        "region": "ภาคกลาง",
+        "hs_board_count": 4
+    },
+    {
+        "province": "ตราด",
+        "region": "ภาคตะวันออก",
+        "hs_board_count": 4
+    },
+    {
+        "province": "จันทบุรี",
+        "region": "ภาคตะวันออก",
+        "hs_board_count": 4
+    },
+    {
+        "province": "สระแก้ว",
+        "region": "ภาคตะวันออก",
+        "hs_board_count": 3
+    },
+    {
+        "province": "ระยอง",
+        "region": "ภาคตะวันออก",
+        "hs_board_count": 3
+    },
+    {
+        "province": "ชลบุรี",
+        "region": "ภาคตะวันออก",
+        "hs_board_count": 4
+    },
+    {
+        "province": "ฉะเชิงเทรา",
+        "region": "ภาคตะวันออก",
+        "hs_board_count": 4
+    },
+    {
+        "province": "สุรินทร์",
+        "region": "ภาคอีสาน",
+        "hs_board_count": 2
+    },
+    {
+        "province": "ศรีสะเกษ",
+        "region": "ภาคอีสาน",
+        "hs_board_count": 2
+    },
+    {
+        "province": "ร้อยเอ็ด",
+        "region": "ภาคอีสาน",
+        "hs_board_count": 2
+    },
+    {
+        "province": "มหาสารคาม",
+        "region": "ภาคอีสาน",
+        "hs_board_count": 3
+    },
+    {
+        "province": "กาฬสินธุ์",
+        "region": "ภาคอีสาน",
+        "hs_board_count": 3
+    },
+    {
+        "province": "ชัยภูมิ",
+        "region": "ภาคอีสาน",
+        "hs_board_count": 3
+    },
+    {
+        "province": "เลย",
+        "region": "ภาคอีสาน",
+        "hs_board_count": 3
+    },
+    {
+        "province": "หนองคาย",
+        "region": "ภาคอีสาน",
+        "hs_board_count": 3
+    },
+    {
+        "province": "สกลนคร",
+        "region": "ภาคอีสาน",
+        "hs_board_count": 3
+    },
+    {
+        "province": "นครพนม",
+        "region": "ภาคอีสาน",
+        "hs_board_count": 2
+    },
+    {
+        "province": "บึงกาฬ",
+        "region": "ภาคอีสาน",
+        "hs_board_count": 3
+    },
+    {
+        "province": "ยโสธร",
+        "region": "ภาคอีสาน",
+        "hs_board_count": 3
+    },
+    {
+        "province": "อำนาจเจริญ",
+        "region": "ภาคอีสาน",
+        "hs_board_count": 2
+    },
+    {
+        "province": "มุกดาหาร",
+        "region": "ภาคอีสาน",
+        "hs_board_count": 3
+    },
+    {
+        "province": "บุรีรัมย์",
+        "region": "ภาคอีสาน",
+        "hs_board_count": 3
+    },
+    {
+        "province": "หนองบัวลำภู",
+        "region": "ภาคอีสาน",
+        "hs_board_count": 2
+    },
+    {
+        "province": "นครราชสีมา",
+        "region": "ภาคอีสาน",
+        "hs_board_count": 3
+    },
+    {
+        "province": "ขอนแก่น",
+        "region": "ภาคอีสาน",
+        "hs_board_count": 3
+    },
+    {
+        "province": "อุดรธานี",
+        "region": "ภาคอีสาน",
+        "hs_board_count": 2
+    },
+    {
+        "province": "อุบลราชธานี",
+        "region": "ภาคอีสาน",
+        "hs_board_count": 2
+    },
+    {
+        "province": "เชียงใหม่",
+        "region": "ภาคเหนือ",
+        "hs_board_count": 2
+    },
+    {
+        "province": "ลำพูน",
+        "region": "ภาคเหนือ",
+        "hs_board_count": 3
+    },
+    {
+        "province": "ลำปาง",
+        "region": "ภาคเหนือ",
+        "hs_board_count": 3
+    },
+    {
+        "province": "แพร่",
+        "region": "ภาคเหนือ",
+        "hs_board_count": 3
+    },
+    {
+        "province": "น่าน",
+        "region": "ภาคเหนือ",
+        "hs_board_count": 2
+    },
+    {
+        "province": "พะเยา",
+        "region": "ภาคเหนือ",
+        "hs_board_count": 3
+    },
+    {
+        "province": "พิษณุโลก",
+        "region": "ภาคเหนือ",
+        "hs_board_count": 3
+    },
+    {
+        "province": "เชียงราย",
+        "region": "ภาคเหนือ",
+        "hs_board_count": 2
+    },
+    {
+        "province": "สุโขทัย",
+        "region": "ภาคเหนือ",
+        "hs_board_count": 3
+    },
+    {
+        "province": "กำแพงเพชร",
+        "region": "ภาคเหนือ",
+        "hs_board_count": 2
+    },
+    {
+        "province": "นครสวรรค์",
+        "region": "ภาคเหนือ",
+        "hs_board_count": 3
+    },
+    {
+        "province": "ตาก",
+        "region": "ภาคเหนือ",
+        "hs_board_count": 3
+    },
+    {
+        "province": "พิจิตร",
+        "region": "ภาคเหนือ",
+        "hs_board_count": 3
+    },
+    {
+        "province": "แม่ฮ่องสอน",
+        "region": "ภาคเหนือ",
+        "hs_board_count": 3
+    },
+    {
+        "province": "อุตรดิตถ์",
+        "region": "ภาคเหนือ",
+        "hs_board_count": 3
+    },
+    {
+        "province": "ยะลา",
+        "region": "ภาคใต้",
+        "hs_board_count": 2
+    },
+    {
+        "province": "สตูล",
+        "region": "ภาคใต้",
+        "hs_board_count": 2
+    },
+    {
+        "province": "สงขลา",
+        "region": "ภาคใต้",
+        "hs_board_count": 1
+    },
+    {
+        "province": "พัทลุง",
+        "region": "ภาคใต้",
+        "hs_board_count": 2
+    },
+    {
+        "province": "ตรัง",
+        "region": "ภาคใต้",
+        "hs_board_count": 2
+    },
+    {
+        "province": "นครศรีธรรมราช",
+        "region": "ภาคใต้",
+        "hs_board_count": 2
+    },
+    {
+        "province": "ระนอง",
+        "region": "ภาคใต้",
+        "hs_board_count": 2
+    },
+    {
+        "province": "สุราษฎร์ธานี",
+        "region": "ภาคใต้",
+        "hs_board_count": 2
+    },
+    {
+        "province": "พังงา",
+        "region": "ภาคใต้",
+        "hs_board_count": 2
+    },
+    {
+        "province": "กระบี่",
+        "region": "ภาคใต้",
+        "hs_board_count": 2
+    },
+    {
+        "province": "ภูเก็ต",
+        "region": "ภาคใต้",
+        "hs_board_count": 2
+    },
+    {
+        "province": "ปัตตานี",
+        "region": "ภาคใต้",
+        "hs_board_count": 2
+    },
+    {
+        "province": "ชุมพร",
+        "region": "ภาคใต้",
+        "hs_board_count": 1
+    },
+    {
+        "province": "นราธิวาส",
+        "region": "ภาคใต้",
+        "hs_board_count": 2
+    }
+]

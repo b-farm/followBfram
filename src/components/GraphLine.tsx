@@ -33,6 +33,7 @@ const GraphLine = ({ data, log }: Prop) => {
                     area: true,
                     showMark: false,
                     curve: 'linear', // Use linear curve for low curvature
+                    color: 'var(--color-main)',
                 },
             ]}
             height={300}

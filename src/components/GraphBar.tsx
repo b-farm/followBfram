@@ -26,10 +26,12 @@ const GraphBar = ({ data }: Prop) => {
             series={[
                 {
                     data: data.map((item) => item.y),
+                    color: 'var(--color-main)',
                 },
             ]}
             height={300}
             skipAnimation
+            disableAxisListener
         />
     )
 }
