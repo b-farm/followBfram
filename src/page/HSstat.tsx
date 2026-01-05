@@ -21,9 +21,17 @@ interface ProvinceInfo {
   deleted_at: string | null,
 }
 
+interface hsnetpieprops {
+  user: number,
+  project: number,
+  device: number,
+  timestamp: string,
+}
+
 
 function HSstat() {
   const [provinceData, setProvinceData] = useState<ProvinceInfo[]>([]);
+  const [hsNetpieData, setHsNetpieData] = useState<hsnetpieprops>({ user: 0, project: 0, device: 0, timestamp: "" });
 
   const fetchProvince = async () => {
     try {
@@ -31,6 +39,16 @@ function HSstat() {
       setProvinceData(response.data);
     } catch (error) {
       console.error('Error fetching province data:', error);
+    }
+  };
+
+  const fetchHSNetpie = async () => {
+    try {
+      const response = await axios.get<hsnetpieprops>('https://summary.handysense.io/report.json');
+      setHsNetpieData(response.data);
+      console.log('HS Netpie data fetched:', response.data);
+    } catch (error) {
+      console.error('Error fetching HS Netpie data:', error);
     }
   };
 
@@ -43,6 +61,7 @@ function HSstat() {
 
   useEffect(() => {
     fetchProvince();
+    fetchHSNetpie();
   }, []);
 
   return (
@@ -50,11 +69,25 @@ function HSstat() {
       <Nav />
       <br />
       <h1>HandySense Boards in Thailand.</h1>
-      <h3>Total boards: {hs.reduce((acc, curr) => acc + curr.hs_board_count, 0)}</h3>
-      <h4>Last Updated: 12 Nov 2025</h4>
+      {/* <h3>Total boards: {hs.reduce((acc, curr) => acc + curr.hs_board_count, 0)}</h3> */}
+      <h4>Last Updated: {hsNetpieData.timestamp ? new Date(parseInt(hsNetpieData.timestamp)).toLocaleString() : ''}</h4>
       <div className='layout'>
+        <div className='block-g' style={{ padding: 0, background: 'none', display: "grid", gridTemplateColumns: "auto", gap: "12px" }}>
+          <div className='block-g' style={{padding: '12px 0 32px'}}>
+            <h3 style={{ color: '#888', fontWeight: 300 }}>Total Users</h3>
+            <h1 style={{padding: 0, fontSize: '2.4rem'}}>{hsNetpieData.user.toLocaleString()}</h1>
+          </div>
+          <div className='block-g' style={{padding: '12px 0 32px'}}>
+            <h3 style={{ color: '#888', fontWeight: 300 }}>Devices Connected</h3>
+            <h1 style={{padding: 0, fontSize: '2.4rem'}}>{hsNetpieData.device.toLocaleString()}</h1></div>
+          <div className='block-g' style={{padding: '12px 0 32px'}}>
+            <h3 style={{ color: '#888', fontWeight: 300 }}>NETPIE Projects</h3>
+            <h1 style={{padding: 0, fontSize: '2.4rem'}}>{hsNetpieData.project.toLocaleString()}</h1>
+          </div>
+        </div>
         <div className='block-g'>
-          <div style={{ padding: '0 20px 16px', height: '400px', overflowX: 'scroll' }}>
+          <h3 style={{ color: '#888', fontWeight: 300, fontSize: '1rem', paddingBottom: '8px' }}>Number of devices sold in each province.</h3>
+          <div style={{ padding: '0 20px 16px', height: '350px', overflowX: 'scroll' }}>
             <div className='grid-region-t'>
               <div className='grid-region-t-1'>Province</div>
               <div className='grid-region-t-2'>User</div>
@@ -78,7 +111,9 @@ function HSstat() {
           })).sort((a, b) => b.count - a.count)} />
         </div>
       </div>
-    </div>
+      <br />
+      <br />
+    </div >
   )
 }
 
