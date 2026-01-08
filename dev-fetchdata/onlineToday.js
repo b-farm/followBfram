@@ -16,7 +16,6 @@ async function getTodayTimes() {
         .filter(item => item.time.startsWith(todayStr))
         .map(item => item.time);
     
-    console.log(data.length);
     return timesToday;
 }
 

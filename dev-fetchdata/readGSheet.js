@@ -24,7 +24,6 @@ const getUser = async () => {
 }
 
 const detailEmail = (email, sheetData) => {
-    console.log("sheetData:", sheetData);
     const rows = sheetData.values;
     const headers = rows[0];
     const emailIndex = headers.indexOf("Email");
@@ -138,8 +137,6 @@ const waitForKey = () => {
         process.stdin.resume();
         process.stdin.setEncoding('utf8');
 
-        console.log('\nPress Enter to run again, or Esc to exit.');
-
         const onData = (key) => {
             if (key === '\u000D') { // Enter
                 // process.stdin.setRawMode(false);
@@ -188,15 +185,6 @@ async function main() {
             const minutes = Math.floor(durationMs / (1000 * 60)) % 60;
             const hours = Math.floor(durationMs / (1000 * 60 * 60)) % 24;
             const days = Math.floor(durationMs / (1000 * 60 * 60 * 24));
-
-            console.log("Data for: ", chalk.magentaBright(emailToFind));
-            console.log("Start Active: ", chalk.yellow(new Date(results_datainfo[3] ?? 0)));
-            console.log("Last Active: ", chalk.yellow(new Date(results_datainfo[4] ?? 0)));
-            console.log("Duration: ", chalk.cyanBright(`${days} days, ${hours} hours, ${minutes} minutes, ${seconds} seconds`));
-            console.table(results);
-            console.table(results_datainfo[0]);
-            console.table(results_datainfo[1]);
-            console.table(results_datainfo[2]);
 
         } catch (error) {
             console.error('Failed to fetch data from Google Sheets.', error);

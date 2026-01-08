@@ -10,6 +10,3 @@ function decimalToMac(num) {
 
     return macBytes.map(b => b.toString(16).padStart(2, '0')).join(':');
 }
-
-console.log(decimalToMac(11236292)); // ผลลัพธ์: "00:ab:57:74:73:c4"
-// 94:54:c5:ab:73:c4

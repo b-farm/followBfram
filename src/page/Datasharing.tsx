@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import Nav from "../components/Nav"
 import axios from "axios";
+import colortheme from '../color/colortheme.json';
 
 import './datasharing.css';
 
@@ -59,6 +60,7 @@ function Datasharing() {
     const [loading, setLoading] = useState<boolean>(false);
     const [allUser, setAllUser] = useState<number>(0);
     const [allData, setAllData] = useState<number>(0);
+    const [isDarkMode, setIsDarkMode] = useState<boolean>(true);
 
     const GOOGLE_SHEET_ID = import.meta.env.VITE_GOOGLE_SHEET_ID;
     const GOOGLE_API_KEY = import.meta.env.VITE_GOOGLE_API_KEY;
@@ -227,8 +229,19 @@ function Datasharing() {
         }
         setLoading(false);
     }
+    const Text_h3 = (text: string) => {
+        return <h3 style={{ color: isDarkMode ? colortheme.main.dark : colortheme.main.light }}>{text}</h3>;
+    }
+    const Text_h3_b = (text: string) => {
+        return <h3 style={{ color: isDarkMode ? colortheme.main.dark : colortheme.main.light }}>{text}</h3>;
+    }
+    const Text_h4 = (text: string) => {
+        return <h4 style={{ color: isDarkMode ? "white" : colortheme.text2.light }}>{text}</h4>;
+    }
 
     useEffect(() => {
+        const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        setIsDarkMode(isDarkMode);
         const fetchData = async () => {
             const fetchGetUser = await getUser();
             if (fetchGetUser) {
@@ -261,10 +274,10 @@ function Datasharing() {
 
 
     return (
-        <div className="layout1">
+        <div className="layout1" style={{ background: isDarkMode ? colortheme.background.dark : colortheme.background.light, minHeight: '100vh' }}>
             <Nav />
             <br />
-            <h1 style={{textAlign: 'center'}}>Data Sharing</h1>
+            <h1 style={{ textAlign: 'center', color: isDarkMode ? colortheme.text1.dark : colortheme.text1.light }}>Data Sharing</h1>
             <br />
             <div className="layout2">
 
@@ -272,7 +285,7 @@ function Datasharing() {
                     <select className="select-nnt" onChange={(e) => {
                         setSelectUser(e.target.value);
                         onClickUser(e.target.value);
-                    }} value={selectUser}>
+                    }} value={selectUser} style={{ background: isDarkMode ? "#444444" : "#ffffff", color: isDarkMode ? "#ffffff" : "#000000", border: isDarkMode ? "1px solid " + colortheme.main.dark : "1px solid " + colortheme.main.light }}>
                         {/* <option value="" hidden>Overall</option> */}
                         <option value="overall">Overall</option>
                         {listEmail.sort((a, b) => b.count - a.count).map((item, key) => (
@@ -282,99 +295,99 @@ function Datasharing() {
                         ))}
                     </select>
                     <div style={{ padding: '0 6px' }}></div>
-                    <button onClick={() => onClickUser(selectUser)}>Search</button>
+                    <button onClick={() => onClickUser(selectUser)} style={{ background: isDarkMode ? colortheme.main.dark + "aa" : colortheme.main.light }}>Search</button>
                     <div className="loader" style={{ display: loading ? '' : 'none' }}></div>
                 </div>
                 <div className="detailoverall" style={{ display: selectUser === "overall" ? '' : 'none', padding: '40px 0' }}>
-                    <h3>Users sharing data: {allUser.toLocaleString()} users.</h3>
-                    <h3>Total data in the database: {allData.toLocaleString()} data.</h3>
+                    {Text_h3(`Users sharing data: ${allUser.toLocaleString()} users.`)}
+                    {Text_h3(`Total data in the database: ${allData.toLocaleString()} data.`)}
                 </div>
                 <div className="my-grid" style={{ display: selectUser !== "overall" ? '' : 'none' }}>
-                    <div className="card-1">
+                    <div className="card-1" style={{ background: isDarkMode ? colortheme.backgroundcard.dark : colortheme.backgroundcard.light }}>
                         <div className="card-1-header">
-                            <h3>Sensor</h3>
-                            <h3>{userSensor.length}</h3>
+                            {Text_h3("Sensor")}
+                            {Text_h3(userSensor.length.toString())}
                         </div>
                         <div className="card-1-list">
                             {userSensor.map((item, index) => (
                                 <div className="card-1-list-n" key={index}>
-                                    <h4>{item.sensor}</h4>
-                                    <h4>{item.count.toLocaleString()}</h4>
+                                    {Text_h4(item.sensor)}
+                                    {Text_h4(item.count.toLocaleString())}
                                 </div>
                             ))}
                         </div>
                     </div>
-                    <div className="card-1">
+                    <div className="card-1" style={{ background: isDarkMode ? colortheme.backgroundcard.dark : colortheme.backgroundcard.light }}>
                         <div className="card-1-header">
-                            <h3>Chip</h3>
-                            <h3>{userChip.length}</h3>
+                            {Text_h3("Chip")}
+                            {Text_h3(userChip.length.toString())}
                         </div>
                         <div className="card-1-list">
                             {userChip.map((item, index) => (
                                 <div className="card-1-list-n" key={index}>
-                                    <h4>{item.chip}</h4>
-                                    <h4>{item.count.toLocaleString()}</h4>
+                                    {Text_h4(item.chip)}
+                                    {Text_h4(item.count.toLocaleString())}
                                 </div>
                             ))}
                         </div>
                     </div>
-                    <div className="card-2">
+                    <div className="card-2" style={{ background: isDarkMode ? colortheme.backgroundcard.dark : colortheme.backgroundcard.light }}>
                         <div className="card-2-header">
-                            <h3>Connect</h3>
+                            {Text_h3("Connect")}
                         </div>
                         <div className="card-2-list">
                             {userConnect.map((item, index) => (
                                 <div className="card-1-list-n" key={index}>
-                                    <h4>{item.connect}</h4>
-                                    <h4>{item.count.toLocaleString()}</h4>
+                                    {Text_h4(item.connect)}
+                                    {Text_h4(item.count.toLocaleString())}
                                 </div>
                             ))}
                         </div>
                     </div>
-                    <div className="card-2">
+                    <div className="card-2" style={{ background: isDarkMode ? colortheme.backgroundcard.dark : colortheme.backgroundcard.light }}>
                         <div className="card-2-header">
-                            <h3>Total Data</h3>
+                            {Text_h3("Total Data")}
                         </div>
-                        <h2 style={{ display: userSensor.length > 0 ? '' : 'none' }}>
-                            {userCount.toLocaleString() ?? ""}
-                        </h2>
+                        <div style={{ display: userSensor.length > 0 ? '' : 'none', width: '100%', textAlign: 'center' }}>
+                            {Text_h3_b(userCount.toLocaleString() ?? "")}
+                        </div>
                     </div>
-                    <div className="card-3">
+                    <div className="card-3" style={{ background: isDarkMode ? colortheme.backgroundcard.dark : colortheme.backgroundcard.light }}>
                         <div className="card-3-header">
-                            <h3>User Info</h3>
+                            {Text_h3("User Info")}
                         </div>
                         <div className="card-3-list" style={{ display: userSensor.length > 0 ? '' : 'none' }}>
                             <div className="card-3-list-n">
-                                <h4>Name</h4>
-                                <h3>{userInfo.name}</h3>
+                                {Text_h4("Name")}
+                                {Text_h3_b(userInfo.name)}
                             </div>
                             <div className="card-3-list-n">
-                                <h4>Address</h4>
-                                <h3>{userInfo.address}</h3>
+                                {Text_h4("Address")}
+                                {Text_h3_b(userInfo.address)}
                             </div>
                             <div className="card-3-list-n">
-                                <h4>Phone</h4>
-                                <h3>{userInfo.phone}</h3>
+                                {Text_h4("Phone")}
+                                {Text_h3_b(userInfo.phone)}
                             </div>
                             <div className="card-3-list-n">
-                                <h4>Email</h4>
-                                <h3>{userInfo.email}</h3>
+                                {Text_h4("Email")}
+                                {Text_h3_b(userInfo.email)}
                             </div>
                             <div className="card-3-list-n">
-                                <h4>Objective</h4>
-                                <h3>{userInfo.objective}</h3>
+                                {Text_h4("Objective")}
+                                {Text_h3_b(userInfo.objective)}
                             </div>
                             <div className="card-3-list-n">
-                                <h4>Farm type</h4>
-                                <h3>{userInfo.farmtype}</h3>
+                                {Text_h4("Farm type")}
+                                {Text_h3_b(userInfo.farmtype)}
                             </div>
                             <div className="card-3-list-n">
-                                <h4>Suggest</h4>
-                                <h3>{userInfo.suggest}</h3>
+                                {Text_h4("Suggest")}
+                                {Text_h3_b(userInfo.suggest)}
                             </div>
                             <div className="card-3-list-n">
-                                <h4>Duration</h4>
-                                <h3>{userTime}</h3>
+                                {Text_h4("Duration")}
+                                {Text_h3_b(userTime)}
                             </div>
                         </div>
                     </div>

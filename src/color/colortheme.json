@@ -1,0 +1,34 @@
+{
+    "main": {
+        "light": "#79c852",
+        "dark": "#12ffae"
+    },
+    "background": {
+        "light": "#e8edf2",
+        "dark": "#171413"
+    },
+    "backgroundcard": {
+        "light": "#ffffff",
+        "dark": "#1c1918"
+    },
+    "navbar1": {
+        "light": "#79c852",
+        "dark": "#151517"
+    },
+    "navbar2": {
+        "light": "#f4f4f4",
+        "dark": "#0e0c0b"
+    },
+    "text1": {
+        "light": "#457a36",
+        "dark": "#12ffae"
+    },
+    "text2": {
+        "light": "#666666",
+        "dark": "#cccccc"
+    },
+    "text3": {
+        "light": "#ffffff",
+        "dark": "#cccccc"
+    }
+}

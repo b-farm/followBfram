@@ -19,9 +19,6 @@ async function askSelections() {
     }
   ]);
 
-  console.log('\nSelected Values:');
-  console.log('Select1:', select1.option1);
-  console.log('Select2:', select2.option2);
 }
 
 askSelections();
