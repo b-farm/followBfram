@@ -3,16 +3,19 @@ import Usagestate from './page/Usagestat';
 import Datasharing from './page/Datasharing';
 import './App.css';
 import HSstat from "./page/HSstat";
+import { ThemeProvider } from './contexts/ThemeContext';
 
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-         <Route path='/' element={<Usagestate />} />
-         <Route path="/datasharing" element={<Datasharing />} />
-         <Route path="/handysense" element={<HSstat />} />
-      </Routes>
-    </BrowserRouter>
+    <ThemeProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path='/' element={<Usagestate />} />
+          <Route path="/datasharing" element={<Datasharing />} />
+          <Route path="/handysense" element={<HSstat />} />
+        </Routes>
+      </BrowserRouter>
+    </ThemeProvider>
   )
 }
 

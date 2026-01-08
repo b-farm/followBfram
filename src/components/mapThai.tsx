@@ -1,13 +1,12 @@
 import Highcharts from 'highcharts/highmaps';
 import HighchartsReact from 'highcharts-react-official';
 import mapDataThailand from '../../data/thailand.json';
-import { useEffect, useState } from 'react';
-import colortheme from '../color/colortheme.json';
+import { useTheme } from '../contexts/ThemeContext';
 
 type DataLocation = { region: string; count: number };
 
 const ThailandMap = ({ data }: { data: DataLocation[] }) => {
-    const [isDarkMode, setIsDarkMode] = useState<boolean>(true);
+    const { isDarkMode, colors } = useTheme();
     // Build a mapping from province names to map keys (e.g., 'Bangkok' -> 'th-bk')
     const nameToKey: Record<string, string> = {};
     (mapDataThailand.features || []).forEach((feature: any) => {
@@ -44,7 +43,7 @@ const ThailandMap = ({ data }: { data: DataLocation[] }) => {
         title: { text: '' },
         colorAxis: {
             min: 0,
-            stops: [[0, isDarkMode ? colortheme.main.dark : colortheme.main.light], [1, '#ff0000']],
+            stops: [[0, colors.main], [1, '#ff0000']],
         },
         series: [{
             type: 'map',
@@ -63,10 +62,6 @@ const ThailandMap = ({ data }: { data: DataLocation[] }) => {
         } as MapSeriesData]
     };
 
-    useEffect(() => {
-        const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        setIsDarkMode(isDarkMode);
-    }, []);
     return (
         <HighchartsReact
             constructorType="mapChart"

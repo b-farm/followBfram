@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Nav from "../components/Nav"
 import axios from "axios";
-import colortheme from '../color/colortheme.json';
+import { useTheme } from '../contexts/ThemeContext';
 
 import './datasharing.css';
 
@@ -48,6 +48,7 @@ const default_userInfo: UserInfo = {
 };
 
 function Datasharing() {
+    const { isDarkMode, colors } = useTheme();
 
     const [listEmail, setListEmail] = useState<ListEmailProps[]>([]);
     const [selectUser, setSelectUser] = useState<string>("overall");
@@ -60,7 +61,6 @@ function Datasharing() {
     const [loading, setLoading] = useState<boolean>(false);
     const [allUser, setAllUser] = useState<number>(0);
     const [allData, setAllData] = useState<number>(0);
-    const [isDarkMode, setIsDarkMode] = useState<boolean>(true);
 
     const GOOGLE_SHEET_ID = import.meta.env.VITE_GOOGLE_SHEET_ID;
     const GOOGLE_API_KEY = import.meta.env.VITE_GOOGLE_API_KEY;
@@ -230,18 +230,16 @@ function Datasharing() {
         setLoading(false);
     }
     const Text_h3 = (text: string) => {
-        return <h3 style={{ color: isDarkMode ? colortheme.main.dark : colortheme.main.light }}>{text}</h3>;
+        return <h3 style={{ color: colors.main }}>{text}</h3>;
     }
     const Text_h3_b = (text: string) => {
-        return <h3 style={{ color: isDarkMode ? colortheme.main.dark : colortheme.main.light }}>{text}</h3>;
+        return <h3 style={{ color: colors.main }}>{text}</h3>;
     }
     const Text_h4 = (text: string) => {
-        return <h4 style={{ color: isDarkMode ? "white" : colortheme.text2.light }}>{text}</h4>;
+        return <h4 style={{ color: isDarkMode ? "white" : colors.text2 }}>{text}</h4>;
     }
 
     useEffect(() => {
-        const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        setIsDarkMode(isDarkMode);
         const fetchData = async () => {
             const fetchGetUser = await getUser();
             if (fetchGetUser) {
@@ -274,10 +272,10 @@ function Datasharing() {
 
 
     return (
-        <div className="layout1" style={{ background: isDarkMode ? colortheme.background.dark : colortheme.background.light, minHeight: '100vh' }}>
+        <div className="layout1" style={{ background: colors.background, minHeight: '100vh' }}>
             <Nav />
             <br />
-            <h1 style={{ textAlign: 'center', color: isDarkMode ? colortheme.text1.dark : colortheme.text1.light }}>Data Sharing</h1>
+            <h1 style={{ textAlign: 'center', color: colors.text1 }}>Data Sharing</h1>
             <br />
             <div className="layout2">
 
@@ -285,7 +283,7 @@ function Datasharing() {
                     <select className="select-nnt" onChange={(e) => {
                         setSelectUser(e.target.value);
                         onClickUser(e.target.value);
-                    }} value={selectUser} style={{ background: isDarkMode ? "#444444" : "#ffffff", color: isDarkMode ? "#ffffff" : "#000000", border: isDarkMode ? "1px solid " + colortheme.main.dark : "1px solid " + colortheme.main.light }}>
+                    }} value={selectUser} style={{ background: isDarkMode ? "#444444" : "#ffffff", color: isDarkMode ? "#ffffff" : "#000000", border: isDarkMode ? "1px solid " + colors.main : "1px solid " + colors.main }}>
                         {/* <option value="" hidden>Overall</option> */}
                         <option value="overall">Overall</option>
                         {listEmail.sort((a, b) => b.count - a.count).map((item, key) => (
@@ -295,7 +293,7 @@ function Datasharing() {
                         ))}
                     </select>
                     <div style={{ padding: '0 6px' }}></div>
-                    <button onClick={() => onClickUser(selectUser)} style={{ background: isDarkMode ? colortheme.main.dark + "aa" : colortheme.main.light }}>Search</button>
+                    <button onClick={() => onClickUser(selectUser)} style={{ background: colors.main + "aa" }}>Search</button>
                     <div className="loader" style={{ display: loading ? '' : 'none' }}></div>
                 </div>
                 <div className="detailoverall" style={{ display: selectUser === "overall" ? '' : 'none', padding: '40px 0' }}>
@@ -303,7 +301,7 @@ function Datasharing() {
                     {Text_h3(`Total data in the database: ${allData.toLocaleString()} data.`)}
                 </div>
                 <div className="my-grid" style={{ display: selectUser !== "overall" ? '' : 'none' }}>
-                    <div className="card-1" style={{ background: isDarkMode ? colortheme.backgroundcard.dark : colortheme.backgroundcard.light }}>
+                    <div className="card-1" style={{ background: colors.backgroundcard }}>
                         <div className="card-1-header">
                             {Text_h3("Sensor")}
                             {Text_h3(userSensor.length.toString())}
@@ -317,7 +315,7 @@ function Datasharing() {
                             ))}
                         </div>
                     </div>
-                    <div className="card-1" style={{ background: isDarkMode ? colortheme.backgroundcard.dark : colortheme.backgroundcard.light }}>
+                    <div className="card-1" style={{ background: colors.backgroundcard }}>
                         <div className="card-1-header">
                             {Text_h3("Chip")}
                             {Text_h3(userChip.length.toString())}
@@ -331,7 +329,7 @@ function Datasharing() {
                             ))}
                         </div>
                     </div>
-                    <div className="card-2" style={{ background: isDarkMode ? colortheme.backgroundcard.dark : colortheme.backgroundcard.light }}>
+                    <div className="card-2" style={{ background: colors.backgroundcard }}>
                         <div className="card-2-header">
                             {Text_h3("Connect")}
                         </div>
@@ -344,7 +342,7 @@ function Datasharing() {
                             ))}
                         </div>
                     </div>
-                    <div className="card-2" style={{ background: isDarkMode ? colortheme.backgroundcard.dark : colortheme.backgroundcard.light }}>
+                    <div className="card-2" style={{ background: colors.backgroundcard }}>
                         <div className="card-2-header">
                             {Text_h3("Total Data")}
                         </div>
@@ -352,7 +350,7 @@ function Datasharing() {
                             {Text_h3_b(userCount.toLocaleString() ?? "")}
                         </div>
                     </div>
-                    <div className="card-3" style={{ background: isDarkMode ? colortheme.backgroundcard.dark : colortheme.backgroundcard.light }}>
+                    <div className="card-3" style={{ background: colors.backgroundcard }}>
                         <div className="card-3-header">
                             {Text_h3("User Info")}
                         </div>

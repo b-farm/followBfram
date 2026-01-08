@@ -1,21 +1,16 @@
 import { BarChart } from '@mui/x-charts/BarChart';
-import { useEffect, useState } from 'react';
-import colortheme from '../color/colortheme.json';
+import { useTheme } from '../contexts/ThemeContext';
 
 type DataPoint = { x: string; y: number };
 interface Prop {
     data: DataPoint[];
 }
 const GraphBar = ({ data }: Prop) => {
-    const [isDarkMode, setIsDarkMode] = useState<boolean>(true);
+    const { isDarkMode, colors } = useTheme();
     const timeToNum = (time: string) => {
         const thisTime = new Date(time);
         return Math.floor(thisTime.getTime() / 1000);
     }
-    useEffect(() => {
-        const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        setIsDarkMode(isDarkMode);
-    }, []);
 
     return (
 
@@ -33,7 +28,7 @@ const GraphBar = ({ data }: Prop) => {
             series={[
                 {
                     data: data.map((item) => item.y),
-                    color: isDarkMode ? colortheme.main.dark : colortheme.main.light,
+                    color: colors.main,
                 },
             ]}
             height={300}

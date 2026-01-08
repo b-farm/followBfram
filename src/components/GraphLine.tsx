@@ -1,6 +1,5 @@
 import { LineChart } from '@mui/x-charts/LineChart'
-import colortheme from '../color/colortheme.json';
-import { useEffect, useState } from 'react';
+import { useTheme } from '../contexts/ThemeContext';
 
 type DataPoint = { x: string; y: number };
 interface Prop {
@@ -8,7 +7,7 @@ interface Prop {
     log?: boolean;
 }
 const GraphLine = ({ data, log }: Prop) => {
-    const [isDarkMode, setIsDarkMode] = useState<boolean>(true);
+    const { isDarkMode, colors } = useTheme();
 
     const timeToNum = (time: string) => {
         const thisTime = new Date(time);
@@ -16,12 +15,6 @@ const GraphLine = ({ data, log }: Prop) => {
     }
     const minX = Math.min(...data.map((item) => timeToNum(item.x)));
     const maxX = Math.max(...data.map((item) => timeToNum(item.x)));
-
-    useEffect(() => {
-        const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        setIsDarkMode(isDarkMode);
-    }, []);
-    const lineColor = isDarkMode ? colortheme.main.dark : colortheme.main.light;
 
     return (
         <LineChart
@@ -42,7 +35,7 @@ const GraphLine = ({ data, log }: Prop) => {
                     area: true,
                     showMark: false,
                     curve: 'linear', // Use linear curve for low curvature
-                    color: lineColor,
+                    color: colors.main,
                 },
             ]}
             height={300}
@@ -81,8 +74,8 @@ const GraphLine = ({ data, log }: Prop) => {
         >
             <defs>
                 <linearGradient id={`gradient-${isDarkMode ? 'dark' : 'light'}`} x1="0%" y1="0%" x2="0%" y2="100%">
-                    <stop offset="0%" stopColor={lineColor} stopOpacity={0.8} />
-                    <stop offset="100%" stopColor={lineColor} stopOpacity={0.1} />
+                    <stop offset="0%" stopColor={colors.main} stopOpacity={0.8} />
+                    <stop offset="100%" stopColor={colors.main} stopOpacity={0.1} />
                 </linearGradient>
             </defs>
         </LineChart>

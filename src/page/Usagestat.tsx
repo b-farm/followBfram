@@ -6,8 +6,7 @@ import GraphBar from '../components/GraphBar';
 import GraphLine from '../components/GraphLine';
 import ThailandMap from '../components/mapThai';
 import ArcDesign from '../components/Gauge';
-
-import colortheme from '../color/colortheme.json';
+import { useTheme } from '../contexts/ThemeContext';
 
 type DataPoint = { x: string; y: number };
 type DataLocation = { region: string; count: number };
@@ -31,6 +30,7 @@ interface MacInfo {
 
 
 function Usagestate() {
+  const { colors } = useTheme();
 
   const [dates, setDates] = useState<string[]>([])
   const [dailyCounts, setDailyCounts] = useState<number[]>([])
@@ -44,7 +44,6 @@ function Usagestate() {
   const [locationCount, setLocationCount] = useState<DataLocation[]>([])
   const [nowHS, setNowHS] = useState<number>(0)
   const [allHS, setAllHS] = useState<number>(0)
-  const [isDarkMode, setIsDarkMode] = useState<boolean>(true);
 
   const saveTime: Record<string, number> = {};
 
@@ -195,8 +194,6 @@ function Usagestate() {
     fetchAndPlotNewUsers()
     getTodayTimes()
     userTime()
-    const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    setIsDarkMode(isDarkMode);
   }, [])
 
   useEffect(() => {
@@ -222,61 +219,61 @@ function Usagestate() {
   }, [cumulativeCounts, dailyCounts, dates, registCount, dailyCountall])
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'center', width: '100%', background: isDarkMode ? colortheme.background.dark : colortheme.background.light }}>
+    <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'center', width: '100%', background: colors.background }}>
       <Nav />
       <br />
-      <h1 style={{ color: isDarkMode ? colortheme.text1.dark : colortheme.text1.light }}>B-Farm Status</h1>
+      <h1 style={{ color: colors.text1 }}>B-Farm Status</h1>
       <div className='layout' style={{ background: 'none' }}>
-        <div className='block-g' style={{ background: isDarkMode ? colortheme.backgroundcard.dark : colortheme.backgroundcard.light }}>
+        <div className='block-g' style={{ background: colors.backgroundcard }}>
           <div className='disabletouch'></div>
-          <h3 style={{ color: isDarkMode ? colortheme.text2.dark : colortheme.text2.light }}>
+          <h3 style={{ color: colors.text2 }}>
             Registered Users : {Math.max(...dataGraph4.map(item => item.y)) === -Infinity ? 0 : Math.max(...dataGraph4.map(item => item.y)).toLocaleString()}
           </h3>
           <GraphLine data={dataGraph4.filter(item => typeof item.y === 'number' && !isNaN(item.y))} />
         </div>
-        <div className='block-g' style={{ background: isDarkMode ? colortheme.backgroundcard.dark : colortheme.backgroundcard.light }}>
+        <div className='block-g' style={{ background: colors.backgroundcard }}>
           <div className='disabletouch'></div>
-          <h3 style={{ color: isDarkMode ? colortheme.text2.dark : colortheme.text2.light }}>Logged-in B-Farm : {Math.max(...dataGraph2.map(item => item.y)) === -Infinity ? 0 : Math.max(...dataGraph2.map(item => item.y)).toLocaleString()}</h3>
+          <h3 style={{ color: colors.text2 }}>Logged-in B-Farm : {Math.max(...dataGraph2.map(item => item.y)) === -Infinity ? 0 : Math.max(...dataGraph2.map(item => item.y)).toLocaleString()}</h3>
           <GraphLine data={dataGraph2} />
         </div>
-        <div className='block-g' style={{ background: isDarkMode ? colortheme.backgroundcard.dark : colortheme.backgroundcard.light }}>
+        <div className='block-g' style={{ background: colors.backgroundcard }}>
           <div className='disabletouch'></div>
-          <h3 style={{ color: isDarkMode ? colortheme.text2.dark : colortheme.text2.light }}>App Opens : {dataGraph3.map(item => item.y).reduce((acc, cur) => acc + cur, 0).toLocaleString()}</h3>
+          <h3 style={{ color: colors.text2 }}>App Opens : {dataGraph3.map(item => item.y).reduce((acc, cur) => acc + cur, 0).toLocaleString()}</h3>
           <GraphBar data={dataGraph3} />
         </div>
         {/* <div className='block-g'>
           <h3>New users : {Math.max(...dataGraph.map(item => item.y)) === -Infinity ? 0 : Math.max(...dataGraph.map(item => item.y))} New users.</h3>
           <GraphBar data={dataGraph} />
         </div> */}
-        <div className='block-g' style={{ background: isDarkMode ? colortheme.backgroundcard.dark : colortheme.backgroundcard.light }}>
+        <div className='block-g' style={{ background: colors.backgroundcard }}>
           <div className='disabletouch'></div>
-          <h3 style={{ color: isDarkMode ? colortheme.text2.dark : colortheme.text2.light }}>HandySense Boards Online.</h3>
-          <h3 style={{ color: isDarkMode ? colortheme.text2.dark : colortheme.text2.light }}>(via B-Farm)</h3>
+          <h3 style={{ color: colors.text2 }}>HandySense Boards Online.</h3>
+          <h3 style={{ color: colors.text2 }}>(via B-Farm)</h3>
           <div style={{ justifyItems: 'center', justifyContent: 'center', textAlign: 'start', display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', margin: '4% 0', overflow: 'hidden' }}>
             <ArcDesign now={nowHS} all={allHS} />
           </div>
         </div>
-        <div className='block-g' style={{ background: isDarkMode ? colortheme.backgroundcard.dark : colortheme.backgroundcard.light }}>
-          <h3 style={{ color: isDarkMode ? colortheme.text2.dark : colortheme.text2.light }}>Users in Thailand.</h3>
+        <div className='block-g' style={{ background: colors.backgroundcard }}>
+          <h3 style={{ color: colors.text2 }}>Users in Thailand.</h3>
           <div style={{ padding: '0 20px 16px', height: '400px', overflowX: 'scroll' }}>
             <div className='grid-region-t'>
-              <div className='grid-region-t-1' style={{background: isDarkMode ? colortheme.main.dark + "aa" : colortheme.main.light}}>Region</div>
-              <div className='grid-region-t-2' style={{background: isDarkMode ? colortheme.main.dark + "66" : colortheme.main.light + "aa"}}>User</div>
+              <div className='grid-region-t-1' style={{background: colors.main + "aa"}}>Region</div>
+              <div className='grid-region-t-2' style={{background: colors.main + "66"}}>User</div>
             </div>
             {
               locationCount
                 .sort((a, b) => b.count - a.count) // or your preferred sort
                 .map((v, k) => (
                   <div className='grid-region-d' key={k} style={{ background: k % 2 === 0 ? '#4858ee0f' : '#4858ee08' }}>
-                    <h4 style={{ padding: '0 0 0 8%', color: isDarkMode ? colortheme.text2.dark : colortheme.text2.light }}>{v.region}</h4>
-                    <h4 style={{ textAlign: 'center', color: isDarkMode ? colortheme.text2.dark : colortheme.text2.light }}>{v.count}</h4>
+                    <h4 style={{ padding: '0 0 0 8%', color: colors.text2 }}>{v.region}</h4>
+                    <h4 style={{ textAlign: 'center', color: colors.text2 }}>{v.count}</h4>
                   </div>
                 ))
             }
           </div>
         </div>
-        <div className='block-g' style={{ background: isDarkMode ? colortheme.backgroundcard.dark : colortheme.backgroundcard.light }}>
-          <h3 style={{ color: isDarkMode ? colortheme.text2.dark : colortheme.text2.light }}>Users in Thailand.</h3>
+        <div className='block-g' style={{ background: colors.backgroundcard }}>
+          <h3 style={{ color: colors.text2 }}>Users in Thailand.</h3>
           <ThailandMap data={locationCount.sort((a, b) => b.count - a.count)} />
         </div>
       </div>
