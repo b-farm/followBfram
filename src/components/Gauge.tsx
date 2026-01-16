@@ -1,5 +1,6 @@
 import { Gauge, gaugeClasses } from '@mui/x-charts/Gauge';
 import { useTheme } from '../contexts/ThemeContext';
+import { useEffect, useState } from 'react';
 
 type Props = {
     now: number;
@@ -7,13 +8,20 @@ type Props = {
 }
 export default function BasicGauge({ now, all }: Props) {
     const { isDarkMode, colors } = useTheme();
+    const [valueGauge, setValueGauge] = useState(0);
+    useEffect(() => {
+        console.log('now', now, 'all', all);
+        if (all !== 0) {
+            setValueGauge((now / all) * 100);
+        }
+    }, [now, all]);
     return (
         <Gauge
             width={400}
             min={0}
             max={all}
             height={300}
-            value={now}
+            value={valueGauge}
             startAngle={0}
             text={`${now} / ${all}`}
             color={isDarkMode ? '#ffffff' : '#000000'}
