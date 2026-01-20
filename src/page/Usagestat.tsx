@@ -44,6 +44,8 @@ function Usagestate() {
   const [locationCount, setLocationCount] = useState<DataLocation[]>([])
   const [nowHS, setNowHS] = useState<number>(0)
   const [allHS, setAllHS] = useState<number>(0)
+  const [datafiltered, setDataFiltered] = useState<MacInfo[]>([]);
+  const [toggleOnline, setToggleOnline] = useState<boolean>(false);
 
   const saveTime: Record<string, number> = {};
 
@@ -156,6 +158,8 @@ function Usagestate() {
     //   .map(item => item.time);
 
     setNowHS(filtered.length);
+    console.log('filtered', filtered);
+    setDataFiltered(filtered);
     setAllHS(data.length);
     // return timesToday;
   }
@@ -189,6 +193,10 @@ function Usagestate() {
     });
     setRegistCount(saveTime ? Object.entries(saveTime).map(([date, count]) => ({ date, count })) : []);
   };
+
+  const handleToggleOnline = () => {
+    setToggleOnline(!toggleOnline);
+  }
 
   useEffect(() => {
     fetchAndPlotNewUsers()
@@ -246,19 +254,40 @@ function Usagestate() {
           <GraphBar data={dataGraph} />
         </div> */}
         <div className='block-g' style={{ background: colors.backgroundcard }}>
-          <div className='disabletouch'></div>
+          <div className='disabletouch' style={{display: toggleOnline ? "none" : ""}}></div>
           <h3 style={{ color: colors.text2 }}>HandySense Boards Online.</h3>
           <h3 style={{ color: colors.text2 }}>(via B-Farm)</h3>
+          <div onClick={handleToggleOnline} style={{ cursor: 'pointer', position: 'absolute', top: '20px', right: '20px', width: '24px', height: '24px', borderRadius: '50%', background: colors.main, display: 'flex', justifyContent: 'center', alignItems: 'center', zIndex: 100 }}>
+            <h4>{toggleOnline ? "x" : "i"}</h4>
+          </div>
           <div style={{ justifyItems: 'center', justifyContent: 'center', textAlign: 'start', display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', margin: '4% 0', overflow: 'hidden' }}>
-            <ArcDesign now={nowHS} all={allHS} />
+            <div style={{display: toggleOnline ? "none" : ""}}>
+              <ArcDesign now={nowHS} all={allHS} />
+            </div>
+            <div style={{ padding: '0 20px 16px', height: '400px', overflowX: 'scroll', width: '90%', marginTop: '16px', display: toggleOnline ? 'block' : 'none' }}>
+              <div className='grid-region-t'>
+                <div className='grid-region-t-1' style={{ background: colors.main + "aa" }}>Email</div>
+                <div className='grid-region-t-2' style={{ background: colors.main + "66" }}>HS id</div>
+              </div>
+              {
+                datafiltered
+                  .sort((a, b) => a.email.localeCompare(b.email))
+                  .map((v, k) => (
+                    <div className='grid-region-d' key={k} style={{ background: k % 2 === 0 ? '#4858ee0f' : '#4858ee08' }}>
+                      <h4 style={{ padding: '0 0 0 8%', color: colors.text2, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{v.email}</h4>
+                      <h4 style={{ textAlign: 'left', color: colors.text2, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{v.chip_id}</h4>
+                    </div>
+                  ))
+              }
+            </div>
           </div>
         </div>
         <div className='block-g' style={{ background: colors.backgroundcard }}>
           <h3 style={{ color: colors.text2 }}>Users in Thailand.</h3>
           <div style={{ padding: '0 20px 16px', height: '400px', overflowX: 'scroll' }}>
             <div className='grid-region-t'>
-              <div className='grid-region-t-1' style={{background: colors.main + "aa"}}>Region</div>
-              <div className='grid-region-t-2' style={{background: colors.main + "66"}}>User</div>
+              <div className='grid-region-t-1' style={{ background: colors.main + "aa" }}>Region</div>
+              <div className='grid-region-t-2' style={{ background: colors.main + "66" }}>User</div>
             </div>
             {
               locationCount
